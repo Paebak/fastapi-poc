@@ -6,10 +6,10 @@ import requests
 
 app = FastAPI()
 
-# ✅ Debugging - Print script location
+# Debugging - Print script location
 print(f"Running main.py from: {os.path.abspath(__file__)}")
 
-# 🔹 Mock Data
+# Mock Data
 mock_users = {
     "admin_user": {"name": "Admin User", "role": "Administrator", "status": "Active"},
     "jdoe": {"name": "John Doe", "role": "Developer", "status": "Active"},
@@ -25,12 +25,12 @@ mock_alerts = [
     {"alert_id": "A124", "user": "jdoe", "host": "host-001", "event": "Failed login attempt"},
 ]
 
-# ✅ Root Endpoint
+# Root Endpoint
 @app.get("/")
 def read_root():
     return {"message": "FastAPI POC Mock is running!"}
 
-# ✅ Correlate User Data
+# Correlate User Data
 @app.get("/correlate/{username}")
 def correlate_user_activity(username: str):
     user_info = mock_users.get(username, None)
@@ -46,7 +46,7 @@ def correlate_user_activity(username: str):
         "user_alerts": user_alerts,
     }
 
-# ✅ GPT-Powered Querying for Analysts (Supports GET & POST)
+# GPT-Powered Querying for Analysts (Supports GET & POST)
 @app.post("/query")
 @app.get("/query")
 def query_gpt(user_query: Dict[str, str] = {"query": ""}):
@@ -55,19 +55,19 @@ def query_gpt(user_query: Dict[str, str] = {"query": ""}):
     if not query_text:
         raise HTTPException(status_code=400, detail="Query is empty")
 
-    # 🔍 Example: Check for user-related queries
+    # Example: Check for user-related queries
     if "alerts for" in query_text.lower():
         username = query_text.lower().split("alerts for")[-1].strip()
         response = correlate_user_activity(username)
     else:
         response = {"message": "Query type not recognized"}
 
-    # 🤖 GPT Formatting (Mock Output)
+    # GPT Formatting (Mock Output)
     gpt_response = f"Security Report:\n{response}"
     
     return {"gpt_output": gpt_response}
 
-# ✅ Debugging
+# Debugging
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8080, reload=True)
