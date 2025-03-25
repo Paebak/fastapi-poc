@@ -46,7 +46,7 @@ def correlate_user_activity(username: str):
         "user_alerts": user_alerts,
     }
 
-# GPT-Powered Querying for Analysts (Supports GET & POST)
+# ✅ GPT-Powered Querying for Analysts (Supports GET & POST)
 @app.post("/query")
 @app.get("/query")
 def query_gpt(user_query: Dict[str, str] = {"query": ""}):
@@ -67,7 +67,7 @@ def query_gpt(user_query: Dict[str, str] = {"query": ""}):
     
     return {"gpt_output": gpt_response}
 
-# Debugging
+# ✅ Debugging
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8080, reload=True)
